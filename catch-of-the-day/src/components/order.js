@@ -2,19 +2,13 @@ import React from "react";
 import { formatPrice } from "../helpers";
 
 class Order extends React.Component {
-  constructor() {
-    super();
-    this.renderOrder = this.renderOrder.bind(this);
-  }
-
-  renderOrder(key) {
+  renderOrder = key => {
     const fish = this.props.fishes[key];
     const count = this.props.order[key];
 
     // Make sure the fish is loaded before we continue!
     if (!fish) return null;
-    //const isAvailable = fish && fish.status === "available";
-    //console.log("MO isAvailable", isAvailable);
+    
     if(!fish || fish.status === 'unavailable') {
       return (
         <li key={key}>
