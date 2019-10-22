@@ -50,12 +50,39 @@ class App extends React.Component {
     });
   };
 
+  updateFish = (key, updatedFish) => {
+    // 1. Take a copy of the current state
+    const fishes = { ...this.state.fishes };
+    // 2. Update that state
+    fishes[key] = updatedFish;
+    // 3. Set that to state
+    this.setState({ fishes });
+  };
+
+  deleteFish = key => {
+    // 1. Take a copy of the current state
+    const fishes = { ...this.state.fishes };
+    // 2. update the state (firebase needs to set the entry to null to perform its deletion)
+    fishes[key] = null;
+    // 3. Update the state
+    this.setState({ fishes });
+  };
+
   addToOrder = key => {
     // 1. Take a copy of the state
     const order = { ...this.state.order };
     // 2. Either update to the order, or update the number in our order
     order[key] = order[key] + 1 || 1;
     // 3. Update our state object
+    this.setState({ order });
+  };
+
+  removeFromOrder = key => {
+    // 1. Take a copy of the state
+    const order = { ...this.state.order };
+    // 2. Remove the order entry
+    delete order[key];
+    // 3. Update the state
     this.setState({ order });
   };
 
@@ -80,9 +107,16 @@ class App extends React.Component {
             ))}
           </ul>
         </div>
-        <Order fishes={this.state.fishes} order={this.state.order} />
+        <Order
+          fishes={this.state.fishes}
+          order={this.state.order}
+          removeFromOrder={this.removeFromOrder}
+        />
         <Inventory
+          fishes={this.state.fishes}
           addFish={this.addFish}
+          updateFish={this.updateFish}
+          deleteFish={this.deleteFish}
           loadSampleFishes={this.loadSampleFishes}
         />
       </div>
