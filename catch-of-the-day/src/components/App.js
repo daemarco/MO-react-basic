@@ -5,12 +5,17 @@ import Inventory from "./inventory";
 import Fish from "./fish";
 import sampleFishes from "../sample-fishes";
 import base from "../base";
+import PropTypes from "prop-types";
 
 class App extends React.Component {
   state = {
     fishes: {},
     order: {}
   };
+
+  static propTypes = {
+    match: PropTypes.object
+  }
 
   componentDidMount() {
     const { params } = this.props.match;
@@ -28,7 +33,7 @@ class App extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log(this.state.order);
+    //console.log(this.state.order);
     localStorage.setItem(
       this.props.match.params.storeId,
       JSON.stringify(this.state.order)
@@ -118,6 +123,7 @@ class App extends React.Component {
           updateFish={this.updateFish}
           deleteFish={this.deleteFish}
           loadSampleFishes={this.loadSampleFishes}
+          storeId={this.props.match.params.storeId}
         />
       </div>
     );
